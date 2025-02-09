@@ -1,66 +1,30 @@
 """
-Script to demonstrate how to:
-- Import data from a csv into a Pandas dataframe
-- Convert to JSON format
-- Save to a JSON file
+Top level run file to demonstrate how to store 2D data tables as JSON files.
+
+The script shows how to store 2D data in a dictionary as a JSON file.  Then
+how to load this back.  Note that because JSON files do not support numpy
+arrays, an additional step is needed to conevrt the numpy array to a list
+before saving as a JSON file.  This step then needs to be reversed when
+loading back again.
+
+Author: Steve Kwok
 
 """
-
 import numpy as np
-import pandas as pd
-import json
+from utils.create_dictionary import create_dictionary
 
+# Define the data is lists and and a numpy array
+rowIndex = [1, 2, 3, 4, 5]
 
-"""
-Example showing how to read in a basic table format and put it into an numpy array which is then stored in a dictionary.
+colIndex = [10, 20, 30, 40]
 
-"""
+dataTable = np.array([[1.1, 1.2, 1.3, 1.4],
+              [2.1, 2.2, 2.3, 2.4],
+              [3.1, 3.2, 3.3, 3.4],
+              [4.1, 4.2, 4.3, 4.4],
+              [5.1, 5.2, 5.3, 5.4]])
 
-filePath = "./data/basicTable.csv"  # Adjust this path based on your file location
-DataDictionary = {
-    "table_array": np.genfromtxt(filePath, delimiter=',', dtype=None, names=True, encoding='utf-8')
-}
+# Create the dictionary
+dataDict = create_dictionary(rowIndex, colIndex, dataTable)
 
-
-"""
-This example imports the same data but into a Pandas dataframe - also stored in the DataDictionary.
-
-"""
-
-# Read the CSV file into a pandas DataFrame
-df = pd.read_csv(filePath)
-DataDictionary["table_dataframe"] = df
-
-# Display the first few rows
-print(df.head())
-# print(DataDictionary["table_dataframe"].head())
-
-breakpoint()
-
-"""
-# Read the Excel file
-df = pd.read_excel('your_file.xlsx', sheet_name='Sheet1')
-
-# Define metadata
-metadata = {
-    "author": "John Doe",
-    "createdOn": "2025-01-05",
-    "dataDescription": "Sales data"
-}
-
-# Convert to JSON
-data = df.to_dict(orient='records')
-
-# Combine metadata and data into one dictionary
-final_json = {
-    "metadata": metadata,
-    "data": data
-}
-
-# Save to file
-with open('output_with_metadata.json', 'w') as json_file:
-    json.dump(final_json, json_file, indent=4)
-
-print("Excel data with metadata saved to 'output_with_metadata.json'")
-
-"""
+print(dataDict)
