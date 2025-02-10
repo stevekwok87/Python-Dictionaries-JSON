@@ -44,8 +44,12 @@ load_file_name = os.path.join(folder_path, "dataDict.json")
 with open(load_file_name, "r") as f:
     dataDictLoaded = json.load(f)
 
-# # Convert the list back to a NumPy array
-# dataDictLoaded["dataTable"] = np.array(dataDictLoaded["dataTable"])
+# Convert the list back to a NumPy array
+dataDictLoaded["dataTable"] = np.array(dataDictLoaded["dataTable"])
+# Note:  This is optional but preferred.  The interpolation below still 
+# works on a 2D list, but it's computationally faster using numpy arrays.
+# There is also more numpy functionality which is useful for data 
+# manipulation that is likely to be useful in other data processing cases.
 
 print(dataDictLoaded)
 
